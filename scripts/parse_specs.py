@@ -339,7 +339,7 @@ def _validate_doc(f, d, tags, line_num):
             __validate_version(d)
 
         elif 'typedef' == d['type']:
-            if ('desc' not in d) or ('name' not in d) or ('value' not in d):
+            if (('desc' not in d) or ('name' not in d) or ('value' not in d)) and ('hardvalue' not in d):
                 raise Exception("'typedef' requires the following scalar fields: {`desc`, `name`, `value`}")
 
             __validate_type(d, 'name', tags)

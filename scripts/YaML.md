@@ -147,6 +147,7 @@ n/a
   - `altvalue` must be an ISO-C standard identifier. If specified, then will be contained within the `#else` conditional block.
   - `ordinal` will be used to override the default order (in which they appear) the typedef appears within its section; `default="1000"`
   - `version` will be used to define the minimum API version in which the typedef will appear; `default="1.0"` This will also affect the order in which the typedef appears within its section and class.
+  - `hardvalue` will ignore `name` and `value` and directly use the `hardvalue` instead.
 * A typedef may take the following optional sequence of scalars or scalars to sequences: {`details`}
   - `detail` will be used as the typedef's detailed comment
 

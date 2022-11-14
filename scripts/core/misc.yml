@@ -22,3 +22,19 @@ params:
       desc: "[in] pointer to tear down parameters"
 returns:
     - $X_RESULT_OUT_OF_HOST_MEMORY
+--- #--------------------------------------------------------------------------
+type: function
+desc: "Calls the callback with given value"
+class: $x
+name: CustomCallback
+decl: static
+ordinal: "0"
+params:
+    - type: $x_api_callback_t
+      name: pFunction
+      desc: "[in] pointer to the function for callback"
+    - type: void*
+      name: pParam
+      desc: "[in] arguments to the callback function"
+returns:
+    - $X_RESULT_INVALID_VALUE

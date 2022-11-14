@@ -525,6 +525,15 @@ def make_type_name(namespace, tags, obj):
 
 """
 Public:
+    returns c/c++ name of typedefs with a hard value, ignoring the value and type
+"""
+def make_type_name_hardvalue(namespace, tags, obj):
+    name = subt(namespace, tags, obj['hardvalue'])
+    return name
+
+
+"""
+Public:
     returns c/c++ name of enums...
 """
 def make_enum_name(namespace, tags, obj):

@@ -70,7 +70,11 @@ extern "C" {
 %endif
 ## TYPEDEF ####################################################################
 %elif re.match(r"typedef", obj['type']):
+%if 'hardvalue' in obj:
+typedef ${th.make_type_name_hardvalue(n, tags, obj)};
+%else:
 typedef ${th.subt(n, tags, obj['value'])} ${th.make_type_name(n, tags, obj)};
+%endif
 ## ENUM #######################################################################
 %elif re.match(r"enum", obj['type']):
 %if th.type_traits.is_flags(obj['name']):

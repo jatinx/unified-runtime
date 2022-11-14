@@ -57,6 +57,11 @@ desc: "compiler-independent type"
 name: $x_bool_t
 value: uint8_t
 --- #--------------------------------------------------------------------------
+type: typedef
+desc: "user defined callback"
+name: $x_api_callback_t
+hardvalue: void($x_api_callback_t)(void*)
+--- #--------------------------------------------------------------------------
 type: handle
 desc: "Handle of a platform instance"
 class: $xPlatform

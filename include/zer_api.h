@@ -87,6 +87,10 @@ extern "C" {
 typedef uint8_t zer_bool_t;
 
 ///////////////////////////////////////////////////////////////////////////////
+/// @brief user defined callback
+typedef void(zer_api_callback_t)(void*);
+
+///////////////////////////////////////////////////////////////////////////////
 /// @brief Handle of a platform instance
 typedef struct _zer_platform_handle_t *zer_platform_handle_t;
 
@@ -1967,6 +1971,22 @@ zerMemCreateWithNativeHandle(
 ZER_APIEXPORT zer_result_t ZER_APICALL
 zerTearDown(
     void* pParams                                   ///< [in] pointer to tear down parameters
+    );
+
+///////////////////////////////////////////////////////////////////////////////
+/// @brief Calls the callback with given value
+/// 
+/// @returns
+///     - ::ZER_RESULT_SUCCESS
+///     - ::ZER_RESULT_ERROR_UNINITIALIZED
+///     - ::ZER_RESULT_ERROR_DEVICE_LOST
+///     - ::ZER_RESULT_ERROR_INVALID_NULL_POINTER
+///         + `nullptr == pParam`
+///     - ::ZER_RESULT_INVALID_VALUE
+ZER_APIEXPORT zer_result_t ZER_APICALL
+zerCustomCallback(
+    zer_api_callback_t pFunction,                   ///< [in] pointer to the function for callback
+    void* pParam                                    ///< [in] arguments to the callback function
     );
 
 #if !defined(__GNUC__)
@@ -6404,6 +6424,29 @@ typedef void (ZER_APICALL *zer_pfnTearDownCb_t)(
     );
 
 ///////////////////////////////////////////////////////////////////////////////
+/// @brief Callback function parameters for zerCustomCallback 
+/// @details Each entry is a pointer to the parameter passed to the function;
+///     allowing the callback the ability to modify the parameter's value
+typedef struct _zer_custom_callback_params_t
+{
+    zer_api_callback_t* ppFunction;
+    void** ppParam;
+} zer_custom_callback_params_t;
+
+///////////////////////////////////////////////////////////////////////////////
+/// @brief Callback function-pointer for zerCustomCallback 
+/// @param[in] params Parameters passed to this instance
+/// @param[in] result Return value
+/// @param[in] pTracerUserData Per-Tracer user data
+/// @param[in,out] ppTracerInstanceUserData Per-Tracer, Per-Instance user data
+typedef void (ZER_APICALL *zer_pfnCustomCallbackCb_t)(
+    zer_custom_callback_params_t* params,
+    zer_result_t result,
+    void* pTracerUserData,
+    void** ppTracerInstanceUserData
+    );
+
+///////////////////////////////////////////////////////////////////////////////
 /// @brief Callback function parameters for zerInit 
 /// @details Each entry is a pointer to the parameter passed to the function;
 ///     allowing the callback the ability to modify the parameter's value
@@ -6431,6 +6474,7 @@ typedef void (ZER_APICALL *zer_pfnInitCb_t)(
 typedef struct _zer_global_callbacks_t
 {
     zer_pfnTearDownCb_t                                             pfnTearDownCb;
+    zer_pfnCustomCallbackCb_t                                       pfnCustomCallbackCb;
     zer_pfnInitCb_t                                                 pfnInitCb;
 } zer_global_callbacks_t;
 
